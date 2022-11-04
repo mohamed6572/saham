@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:saham/modules/ads/ads.dart';
 import 'package:saham/modules/home/home.dart';
 import 'package:saham/modules/magazen/magazen.dart';
@@ -13,7 +14,6 @@ import 'package:saham/modules/shop/shop.dart';
 import 'package:saham/modules/who_are/who_are.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -21,16 +21,70 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  ///interstitial ad
+ String interstitialIDD ='ca-app-pub-3940256099942544/1033173712';
+
+  late InterstitialAd _interstitialAd;
+  bool isADready = false;
+
+  void loadintersitialAd() {
+    InterstitialAd.load(
+        adUnitId: interstitialIDD,
+        request: AdRequest(),
+        adLoadCallback:
+        InterstitialAdLoadCallback(onAdLoaded: (InterstitialAd ad) {
+          isADready = true;
+          _interstitialAd = ad;
+        }, onAdFailedToLoad: (error) {
+          print('errorr $error');
+        }));
+  }
+  late InterstitialAd _interstitialAd1;
+  bool isADready1 = false;
+
+  void loadintersitialAd1() {
+    InterstitialAd.load(
+        adUnitId: interstitialIDD,
+        request: AdRequest(),
+        adLoadCallback:
+        InterstitialAdLoadCallback(onAdLoaded: (InterstitialAd ad) {
+          isADready1 = true;
+          _interstitialAd1 = ad;
+        }, onAdFailedToLoad: (error) {
+          print('errorr $error');
+        }));
+  }
+  void showInterstitialAd(){
+    if(isADready){
+      _interstitialAd.show();
+    }
+  } void showInterstitialAd1(){
+    if(isADready){
+      _interstitialAd.show();
+    }
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadintersitialAd();
+    loadintersitialAd1();
+  }
+
   int CurrentIndedx = 0;
   List<String> titles = [
-    'الرئيسية',
+   // 'الرئيسية',
     'السبلة',
     'الملعب',
     'السوق',
     'المجلة',
   ];
   List<Widget>Screens = [
-    Home(),
+   // Home(),
     Sabla(),
     Malab(),
     Shop(),
@@ -67,12 +121,19 @@ class _MyHomePageState extends State<MyHomePage> {
         }),
         drawer_widget(icon: Icons.sticky_note_2_outlined, text: 'شروط الاعلانات', function: (){
           Navigator.push(context, MaterialPageRoute(builder:(context) => ads(),));
+
         }),
         drawer_widget(icon: Icons.sms_outlined, text: 'سياسة الخصوصية', function: (){
           Navigator.push(context, MaterialPageRoute(builder:(context) => Policy(),));
+          setState(() {
+            showInterstitialAd1();
+          });
         }),
         drawer_widget(icon: Icons.share, text: 'مشاركة التطبيق', function: () async{
           await Share.share("https://play.google.com/store/apps/details?id=com.sahamclub",  );
+          setState(() {
+            showInterstitialAd();
+          });
         },),
         drawer_widget(icon: Icons.logout_outlined, text: 'خروج', function: (){
           SystemNavigator.pop();
@@ -94,10 +155,11 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (i) {
           setState(() {
             CurrentIndedx = i;
+            showInterstitialAd();
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(null), label: 'الرئيسية'),
+         // BottomNavigationBarItem(icon: Icon(null), label: 'الرئيسية'),
           BottomNavigationBarItem(icon: Icon(null), label: 'السبلة'),
           BottomNavigationBarItem(icon: Icon(null), label: 'الملعب'),
           BottomNavigationBarItem(icon: Icon(null), label: 'السوق'),
@@ -180,3 +242,5 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   );
 }
+
+
