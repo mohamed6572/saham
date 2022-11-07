@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   ///interstitial ad
- String interstitialIDD ='ca-app-pub-3940256099942544/1033173712';
+ String interstitialIDD ='ca-app-pub-5247717174476440/6896164033';
 
   late InterstitialAd _interstitialAd;
   bool isADready = false;
@@ -77,18 +77,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int CurrentIndedx = 0;
   List<String> titles = [
-   // 'الرئيسية',
+    'الرئيسية',
     'السبلة',
     'الملعب',
     'السوق',
     'المجلة',
   ];
   List<Widget>Screens = [
-   // Home(),
+Home(),
     Sabla(),
     Malab(),
     Shop(),
-    Magazen()
+    Magazen(),
+
   ];
 
   @override
@@ -116,7 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        drawer_widget(icon: Icons.group, text: 'من نحن', function: (){
+        drawer_widget(icon: Icons.home_outlined, text: 'الرئيسية', function: (){
+        setState(() {
+          CurrentIndedx=0;
+        });
+        }), drawer_widget(icon: Icons.group, text: 'من نحن', function: (){
           Navigator.push(context, MaterialPageRoute(builder:(context) => Who_are(),));
         }),
         drawer_widget(icon: Icons.sticky_note_2_outlined, text: 'شروط الاعلانات', function: (){
@@ -142,42 +147,97 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10.0,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.black,
-        unselectedLabelStyle:
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        selectedLabelStyle:
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        backgroundColor: Colors.white,
-        currentIndex: CurrentIndedx,
-        onTap: (i) {
-          setState(() {
-            CurrentIndedx = i;
-            showInterstitialAd();
-          });
-        },
-        items: [
-         // BottomNavigationBarItem(icon: Icon(null), label: 'الرئيسية'),
-          BottomNavigationBarItem(icon: Icon(null), label: 'السبلة'),
-          BottomNavigationBarItem(icon: Icon(null), label: 'الملعب'),
-          BottomNavigationBarItem(icon: Icon(null), label: 'السوق'),
-          BottomNavigationBarItem(icon: Icon(null), label: 'المجلة'),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   elevation: 10.0,
+      //   type: BottomNavigationBarType.fixed,
+      //   fixedColor: Colors.black,
+      //   unselectedLabelStyle:
+      //   TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      //   selectedLabelStyle:
+      //   TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      //   backgroundColor: Colors.white,
+      //   currentIndex: CurrentIndedx,
+      //   onTap: (i) {
+      //     setState(() {
+      //       CurrentIndedx = i;
+      //       showInterstitialAd();
+      //     });
+      //   },
+      //   items: [
+      //
+      //     BottomNavigationBarItem(icon: Icon(null), label: 'السبلة'),
+      //     BottomNavigationBarItem(icon: Icon(null), label: 'الملعب'),
+      //     BottomNavigationBarItem(icon: Icon(null), label: 'السوق'),
+      //     BottomNavigationBarItem(icon: Icon(null), label: 'المجلة'),
+      //   ],
+      // ),
+      body:Column(
+        children: [
+          Expanded(child:  Screens[CurrentIndedx]),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal:25),
+            height: 60,
+            width: double.infinity,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+               InkWell(
+                 onTap: (){
+                   setState(() {
+                     CurrentIndedx = 1;
+                     showInterstitialAd();
+                   });
+                 },
+                 child:  Text('السبلة',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: CurrentIndedx == 1?Colors.black:Colors.grey),),
+               ),
+               InkWell(
+                 onTap: (){
+                   setState(() {
+                     CurrentIndedx = 2;
+                     showInterstitialAd();
+                   });
+                 },
+                 child:  Text('الملعب',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: CurrentIndedx == 2?Colors.black:Colors.grey),),
+               ),
+               InkWell(
+                 onTap: (){
+                   setState(() {
+                     CurrentIndedx = 3;
+                     showInterstitialAd();
+                   });
+                 },
+                 child:  Text('السوق',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: CurrentIndedx == 3?Colors.black:Colors.grey),),
+               ),
+               InkWell(
+                 onTap: (){
+                   setState(() {
+                     CurrentIndedx = 4;
+                     showInterstitialAd();
+                   });
+                 },
+                 child:  Text('المجلة',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: CurrentIndedx == 4?Colors.black:Colors.grey),),
+               ),
+
+              ],
+            ),
+          )
         ],
       ),
-      body: Screens[CurrentIndedx],
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _contactViaWhatsApp(context);
-        },
-        backgroundColor: Colors.green,
-        tooltip: 'Increment',
-        child: const Icon(
-          Icons.whatsapp_sharp,
-          color: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 60),
+        child: FloatingActionButton(
+          onPressed: () async {
+            _contactViaWhatsApp(context);
+          },
+          backgroundColor: Colors.green,
+          tooltip: 'Increment',
+          child: const Icon(
+            Icons.whatsapp_sharp,
+            color: Colors.white,
+          ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -186,7 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _contactViaWhatsApp(context) async {
     String whatsAppUrl = "";
 
-    String phoneNumber = '201158921439';
+    String phoneNumber = '96895516675';
     String description = "your-custom-message";
 
     if (Platform.isIOS) {

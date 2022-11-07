@@ -1,1 +1,1 @@
-String bannerIDD = 'ca-app-pub-3940256099942544/6300978111'; //'ca-app-pub-7933344131979525/1741544890';//real
+String bannerIDD = 'ca-app-pub-5247717174476440/1159045216'; //'ca-app-pub-7933344131979525/1741544890';//real
